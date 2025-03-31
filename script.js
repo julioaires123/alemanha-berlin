@@ -2,12 +2,12 @@ function atualizarRelogio() {
     let rel = document.getElementById('relogio01');
     let data = new Date();
 
-    // Converter para UTC-2 corretamente
-    let utcMenos2 = new Date(data.getTime() - (2 * 60 * 60 * 1000));
+    // Converter para UTC+4 corretamente
+    let utcMais4 = new Date(data.getTime() + (4 * 60 * 60 * 1000));
 
-    let h = utcMenos2.getUTCHours();
-    let m = utcMenos2.getUTCMinutes();
-    let s = utcMenos2.getUTCSeconds();
+    let h = utcMais4.getUTCHours();
+    let m = utcMais4.getUTCMinutes();
+    let s = utcMais4.getUTCSeconds();
 
     if (h < 10) h = `0${h}`;
     if (m < 10) m = `0${m}`;
@@ -19,7 +19,7 @@ function atualizarRelogio() {
 // Atualizar relógio a cada segundo
 setInterval(atualizarRelogio, 1000);
 
-// Atualizar data corretamente para UTC-2
+// Atualizar data corretamente para UTC+4
 function exibirDataAtualizada() {
     let meses = [
         "Januar", "Februar", "März", "April", "Mai", "Juni", 
@@ -31,24 +31,24 @@ function exibirDataAtualizada() {
     ];
 
     let data = new Date();
-    let utcMenos2 = new Date(data.getTime() - (2 * 60 * 60 * 1000));
+    let utcMais4 = new Date(data.getTime() + (4 * 60 * 60 * 1000));
 
-    let diasem = utcMenos2.getUTCDay();
-    let dia = utcMenos2.getUTCDate();
-    let mes = utcMenos2.getUTCMonth();
-    let ano = utcMenos2.getUTCFullYear();
+    let diasem = utcMais4.getUTCDay();
+    let dia = utcMais4.getUTCDate();
+    let mes = utcMais4.getUTCMonth();
+    let ano = utcMais4.getUTCFullYear();
 
     document.getElementById("date").innerHTML = `${semanas[diasem]}, ${dia}. ${meses[mes]} ${ano}`;
 }
 
-// Função que verifica se chegou 00:00:00 UTC-2
+// Função que verifica se chegou 00:00:00 UTC+4
 function verificarMudancaDeDia() {
     let data = new Date();
-    let utcMenos2 = new Date(data.getTime() - (2 * 60 * 60 * 1000));
+    let utcMais4 = new Date(data.getTime() + (4 * 60 * 60 * 1000));
 
-    let horas = utcMenos2.getUTCHours();
-    let minutos = utcMenos2.getUTCMinutes();
-    let segundos = utcMenos2.getUTCSeconds();
+    let horas = utcMais4.getUTCHours();
+    let minutos = utcMais4.getUTCMinutes();
+    let segundos = utcMais4.getUTCSeconds();
 
     if (horas === 0 && minutos === 0 && segundos === 0) {
         exibirDataAtualizada();
