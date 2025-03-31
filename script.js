@@ -3,7 +3,7 @@ function atualizarRelogio() {
     let data = new Date();
 
     // Garantir que pegamos sempre UTC puro e adicionamos apenas 4 horas
-    let h = (data.getUTCHours() + 4) % 24; // Ajustar para 24h
+    let h = (data.getUTCHours() + 2) % 24; // Ajustar para 24h
     let m = data.getUTCMinutes();
     let s = data.getUTCSeconds();
 
@@ -32,7 +32,7 @@ function exibirDataAtualizada() {
     let data = new Date();
     
     // Garantir que a data esteja sempre sincronizada com UTC+4
-    let h = (data.getUTCHours() + 4) % 24;
+    let h = (data.getUTCHours() + 2) % 24;
     if (h < data.getUTCHours()) {
         data.setUTCDate(data.getUTCDate() + 1);
     }
@@ -50,7 +50,7 @@ function verificarMudancaDeDia() {
     let data = new Date();
 
     // Ajuste correto para UTC+4
-    let horas = (data.getUTCHours() + 4) % 24;
+    let horas = (data.getUTCHours() + 2) % 24;
     let minutos = data.getUTCMinutes();
     let segundos = data.getUTCSeconds();
 
