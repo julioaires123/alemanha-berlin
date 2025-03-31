@@ -14,7 +14,7 @@ function exibirDataAtualizada() {
     ];
     
     let semanas = [
-        "Sonntag", "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag"
+        "Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" ,  "Sonntag"
     ];
 
     let data = new Date();
