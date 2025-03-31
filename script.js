@@ -25,7 +25,7 @@ setInterval(function relog() {
 // Exibição da data em Alemão
 function exibirDataAtualizada() {
     let meses = [ "Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"];
-    let semanas = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" ,  "Sonntag"];
+    let semanas = ["Dienstag", "Mittwoch", "Donnerstag", "Freitag", "Samstag" ,  "Sonntag", "Montag"];
     
     let data = new Date();
     // Adiciona 23 segundos
