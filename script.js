@@ -2,13 +2,15 @@ function atualizarRelogio() {
     let rel = document.getElementById('relogio01');
     let data = new Date();
 
-    // Converter para UTC+4 corretamente
-    let utcMais4 = new Date(data.getTime() + (4 * 60 * 60 * 1000));
+    // Pegar hora UTC e somar 4 horas para UTC+4
+    let h = data.getUTCHours() + 4;
+    let m = data.getUTCMinutes();
+    let s = data.getUTCSeconds();
 
-    let h = utcMais4.getUTCHours();
-    let m = utcMais4.getUTCMinutes();
-    let s = utcMais4.getUTCSeconds();
+    // Garantir que a hora fique dentro do intervalo de 0 a 23
+    if (h >= 24) h -= 24;
 
+    // Formatar com dois dígitos
     if (h < 10) h = `0${h}`;
     if (m < 10) m = `0${m}`;
     if (s < 10) s = `0${s}`;
@@ -31,12 +33,17 @@ function exibirDataAtualizada() {
     ];
 
     let data = new Date();
-    let utcMais4 = new Date(data.getTime() + (4 * 60 * 60 * 1000));
+    
+    // Ajuste de fuso UTC+4
+    let h = data.getUTCHours() + 4;
+    if (h >= 24) {
+        data.setUTCDate(data.getUTCDate() + 1);
+    }
 
-    let diasem = utcMais4.getUTCDay();
-    let dia = utcMais4.getUTCDate();
-    let mes = utcMais4.getUTCMonth();
-    let ano = utcMais4.getUTCFullYear();
+    let diasem = data.getUTCDay();
+    let dia = data.getUTCDate();
+    let mes = data.getUTCMonth();
+    let ano = data.getUTCFullYear();
 
     document.getElementById("date").innerHTML = `${semanas[diasem]}, ${dia}. ${meses[mes]} ${ano}`;
 }
@@ -44,11 +51,14 @@ function exibirDataAtualizada() {
 // Função que verifica se chegou 00:00:00 UTC+4
 function verificarMudancaDeDia() {
     let data = new Date();
-    let utcMais4 = new Date(data.getTime() + (4 * 60 * 60 * 1000));
 
-    let horas = utcMais4.getUTCHours();
-    let minutos = utcMais4.getUTCMinutes();
-    let segundos = utcMais4.getUTCSeconds();
+    // Pegar a hora UTC e somar 4 para converter corretamente
+    let horas = data.getUTCHours() + 4;
+    let minutos = data.getUTCMinutes();
+    let segundos = data.getUTCSeconds();
+
+    // Garantir que a hora fique dentro do intervalo de 0 a 23
+    if (horas >= 24) horas -= 24;
 
     if (horas === 0 && minutos === 0 && segundos === 0) {
         exibirDataAtualizada();
