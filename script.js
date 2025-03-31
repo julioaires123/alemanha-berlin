@@ -18,9 +18,9 @@ function exibirDataAtualizada() {
     ];
 
     let data = new Date();
-    let options = { timeZone: 'Europe/Berlin', weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' };
+    let options = { timeZone: 'Europe/Berlin', day: '2-digit', month: '2-digit', year: 'numeric' };
     let dataFormatada = new Intl.DateTimeFormat('de-DE', options).format(data);
-
+    
     let partes = dataFormatada.split('.');
     let dia = partes[0].trim();
     let mes = meses[parseInt(partes[1]) - 1];
