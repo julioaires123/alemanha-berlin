@@ -2,7 +2,7 @@ setInterval(function relog() {
     let rel = document.getElementById('relogio01');
     let data = new Date();
     data.setHours(data.getHours() + 5); // Ajuste para UTC+4 (Horário de Verão de Berlim)
-    data.setSeconds(data.getSeconds() + 19);
+    data.setSeconds(data.getSeconds() + 24);
     let h = data.getHours();
     let m = data.getMinutes();
     let s = data.getSeconds();
