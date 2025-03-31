@@ -1,17 +1,9 @@
 setInterval(function relog() {
     let rel = document.getElementById('relogio01');
     let data = new Date();
-    data.setHours(data.getHours() + 2); // Ajuste para UTC+2 (Horário de Verão de Berlim)
-    data.setSeconds(data.getSeconds() + 19);
-    let h = data.getHours();
-    let m = data.getMinutes();
-    let s = data.getSeconds();
-
-    if (h < 10) h = `0${h}`;
-    if (m < 10) m = `0${m}`;
-    if (s < 10) s = `0${s}`;
-    
-    rel.innerHTML = `${h}:${m}:${s}`;
+    let options = { timeZone: 'Europe/Berlin', hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    let horaFormatada = new Intl.DateTimeFormat('de-DE', options).format(data);
+    rel.innerHTML = horaFormatada;
 }, 1000);
 
 // Dia, mês e ano em alemão
@@ -26,35 +18,28 @@ function exibirDataAtualizada() {
     ];
 
     let data = new Date();
-    data.setHours(data.getHours() + 2); // Ajuste para UTC+2 (Horário de Verão de Berlim)
-    let diasem = data.getDay();
-    let dia = data.getDate();
-    let mes = data.getMonth();
-    let ano = data.getFullYear();
+    let options = { timeZone: 'Europe/Berlin', weekday: 'long', day: '2-digit', month: '2-digit', year: 'numeric' };
+    let dataFormatada = new Intl.DateTimeFormat('de-DE', options).format(data);
 
-    document.getElementById("date").innerHTML = `${semanas[diasem]}, ${dia}. ${meses[mes]} ${ano}`;
+    let partes = dataFormatada.split('.');
+    let dia = partes[0].trim();
+    let mes = meses[parseInt(partes[1]) - 1];
+    let ano = partes[2].trim();
+    let diaSemana = semanas[data.getDay()];
+
+    document.getElementById("date").innerHTML = `${diaSemana}, ${dia}. ${mes} ${ano}`;
 }
 
 // Atualiza a data a cada segundo
 function atualizarData() {
     let data = new Date();
-    data.setHours(data.getHours() + 2); // Ajuste para UTC+2
-    let horas = data.getHours();
-    let minutos = data.getMinutes();
-    let segundos = data.getSeconds();
+    let options = { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
+    let horaFormatada = new Intl.DateTimeFormat('de-DE', options).format(data);
 
-    if (horas === 0 && minutos === 0 && segundos === 0) {
+    if (horaFormatada === "00:00:00") {
         exibirDataAtualizada();
-        let proximaAtualizacao = new Date();
-        proximaAtualizacao.setDate(proximaAtualizacao.getDate() + 1);     
-        proximaAtualizacao.setHours(0);
-        proximaAtualizacao.setMinutes(0);
-        proximaAtualizacao.setSeconds(0);
-        let tempoAteProximaAtualizacao = proximaAtualizacao.getTime() - data.getTime();
-        setTimeout(atualizarData, tempoAteProximaAtualizacao);
-    } else {
-        setTimeout(atualizarData, 1000);
     }
+    setTimeout(atualizarData, 1000);
 }
 
 exibirDataAtualizada();
