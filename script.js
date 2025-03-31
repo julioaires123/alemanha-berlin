@@ -2,13 +2,10 @@ function atualizarRelogio() {
     let rel = document.getElementById('relogio01');
     let data = new Date();
 
-    // Pegar hora UTC e somar 4 horas para UTC+4
-    let h = data.getUTCHours() + 4;
+    // Garantir que pegamos sempre UTC puro e adicionamos apenas 4 horas
+    let h = (data.getUTCHours() + 4) % 24; // Ajustar para 24h
     let m = data.getUTCMinutes();
     let s = data.getUTCSeconds();
-
-    // Garantir que a hora fique dentro do intervalo de 0 a 23
-    if (h >= 24) h -= 24;
 
     // Formatar com dois dígitos
     if (h < 10) h = `0${h}`;
@@ -34,9 +31,9 @@ function exibirDataAtualizada() {
 
     let data = new Date();
     
-    // Ajuste de fuso UTC+4
-    let h = data.getUTCHours() + 4;
-    if (h >= 24) {
+    // Garantir que a data esteja sempre sincronizada com UTC+4
+    let h = (data.getUTCHours() + 4) % 24;
+    if (h < data.getUTCHours()) {
         data.setUTCDate(data.getUTCDate() + 1);
     }
 
@@ -48,17 +45,14 @@ function exibirDataAtualizada() {
     document.getElementById("date").innerHTML = `${semanas[diasem]}, ${dia}. ${meses[mes]} ${ano}`;
 }
 
-// Função que verifica se chegou 00:00:00 UTC+4
+// Verifica se é 00:00:00 UTC+4 e muda a data
 function verificarMudancaDeDia() {
     let data = new Date();
 
-    // Pegar a hora UTC e somar 4 para converter corretamente
-    let horas = data.getUTCHours() + 4;
+    // Ajuste correto para UTC+4
+    let horas = (data.getUTCHours() + 4) % 24;
     let minutos = data.getUTCMinutes();
     let segundos = data.getUTCSeconds();
-
-    // Garantir que a hora fique dentro do intervalo de 0 a 23
-    if (horas >= 24) horas -= 24;
 
     if (horas === 0 && minutos === 0 && segundos === 0) {
         exibirDataAtualizada();
