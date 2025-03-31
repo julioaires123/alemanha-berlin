@@ -1,20 +1,25 @@
-setInterval(function relog() {
+function atualizarRelogio() {
     let rel = document.getElementById('relogio01');
     let data = new Date();
-    data.setHours(data.getHours() + 5); // Ajuste para UTC+4 (Horário de Verão de Berlim)
-    data.setSeconds(data.getSeconds() + 24);
-    let h = data.getHours();
-    let m = data.getMinutes();
-    let s = data.getSeconds();
+
+    // Converter para UTC+4 corretamente
+    let utc4 = new Date(data.getTime() + (4 * 60 * 60 * 1000));
+
+    let h = utc4.getUTCHours();
+    let m = utc4.getUTCMinutes();
+    let s = utc4.getUTCSeconds();
 
     if (h < 10) h = `0${h}`;
     if (m < 10) m = `0${m}`;
     if (s < 10) s = `0${s}`;
     
     rel.innerHTML = `${h}:${m}:${s}`;
-}, 1000);
+}
 
-// Dia, mês e ano em alemão
+// Atualizar relógio a cada segundo
+setInterval(atualizarRelogio, 1000);
+
+// Atualizar data corretamente para UTC+4
 function exibirDataAtualizada() {
     let meses = [
         "Januar", "Februar", "März", "April", "Mai", "Juni", 
@@ -26,35 +31,32 @@ function exibirDataAtualizada() {
     ];
 
     let data = new Date();
-    data.setHours(data.getHours() + 4); // Ajuste para UTC+4 (Horário de Verão de Berlim)
-    let diasem = data.getDay();
-    let dia = data.getDate();
-    let mes = data.getMonth();
-    let ano = data.getFullYear();
+    let utc4 = new Date(data.getTime() + (4 * 60 * 60 * 1000));
+
+    let diasem = utc4.getUTCDay();
+    let dia = utc4.getUTCDate();
+    let mes = utc4.getUTCMonth();
+    let ano = utc4.getUTCFullYear();
 
     document.getElementById("date").innerHTML = `${semanas[diasem]}, ${dia}. ${meses[mes]} ${ano}`;
 }
 
-// Atualiza a data a cada segundo
-function atualizarData() {
+// Função que verifica se chegou 00:00:00 UTC+4
+function verificarMudancaDeDia() {
     let data = new Date();
-    let horas = data.getHours();
-    let minutos = data.getMinutes();
-    let segundos = data.getSeconds();
+    let utc4 = new Date(data.getTime() + (4 * 60 * 60 * 1000));
+
+    let horas = utc4.getUTCHours();
+    let minutos = utc4.getUTCMinutes();
+    let segundos = utc4.getUTCSeconds();
 
     if (horas === 0 && minutos === 0 && segundos === 0) {
         exibirDataAtualizada();
-        let proximaAtualizacao = new Date();
-        proximaAtualizacao.setDate(proximaAtualizacao.getDate() + 1);     
-        proximaAtualizacao.setHours(0);
-        proximaAtualizacao.setMinutes(0);
-        proximaAtualizacao.setSeconds(0);
-        let tempoAteProximaAtualizacao = proximaAtualizacao.getTime() - data.getTime();
-        setTimeout(atualizarData, tempoAteProximaAtualizacao);
-    } else {
-        setTimeout(atualizarData, 1000);
     }
+
+    setTimeout(verificarMudancaDeDia, 1000);
 }
 
+// Inicializar
 exibirDataAtualizada();
-atualizarData();
+verificarMudancaDeDia();
